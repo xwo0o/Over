@@ -1,0 +1,40 @@
+{
+  "CharacterDatas": [
+    {
+      "id": "Scout",
+      "name": "侦查者:",
+      "description": "移动速度快，适合探索地图",
+      "health": 200,
+      "speed": 17,
+      "attack": 60,
+      "addressableKey": "Scout",
+      "idleAnimation": "Player",
+      "specialAbility": "None",
+      "specialValue": 0
+    },
+    {
+      "id": "Architect",
+      "name": "建筑师:",
+      "description": "建造时减少20%资源消耗",
+      "health": 200,
+      "speed": 10,
+      "attack": 60,
+      "addressableKey": "Architect",
+      "idleAnimation": "Player",
+      "specialAbility": "ReduceBuildCost",
+      "specialValue": 0.2
+    },
+    {
+      "id": "Guardian",
+      "name": "守卫者:",
+      "description": "血量高，攻击力强",
+      "health": 350,
+      "speed": 10,
+      "attack": 100,
+      "addressableKey": "Guardian",
+      "idleAnimation": "Player",
+      "specialAbility": "None",
+      "specialValue": 0
+    }
+  ]
+}

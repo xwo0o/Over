@@ -1,0 +1,466 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using Mirror;
+using TMPro;
+using System.Text;
+using System.Threading.Tasks;
+
+public class BuildingUIController : MonoBehaviour
+{
+    [Header("面板引用")]
+    
+    // 静态列表用于跟踪所有consumptionText，以便在ResourceDatabase加载完成后更新资源消耗文本
+    private static List<TMPro.TextMeshProUGUI> allConsumptionTexts = new List<TMPro.TextMeshProUGUI>();
+    
+    public GameObject buildingPanel;        // 建筑选择面板
+    public GameObject backgroundPanel;       // 背景面板
+    public GameObject gridPlane;             // 网格平面
+    
+    [Header("InventoryUI引用")]
+    public GameObject inventoryBackgroundPanel;  // InventoryUI下的BackgroundPanel_2
+    public GameObject inventoryPreviewPanel;     // InventoryUI下的PreviewPanel
+    
+    [Header("InventoryUI控制器引用")]
+    public InventoryUIController inventoryUIController; // InventoryUI控制器引用
+    
+    private bool isInitialized = false;
+    private bool isBuildingMode = false;     // 是否处于建筑模式
+    private bool wasInventoryToggleEnabled = true; // 记录进入建筑模式前的背包切换状态
+    private bool isInventoryToggleBlocked = false; // 记录是否阻止了背包切换
+    private Coroutine initializationCoroutine;
+
+    void Awake()
+    {
+        Debug.Log("[BuildingUIController] Awake被调用");
+        
+        // 确保BuildingUI根对象激活
+        if (!gameObject.activeSelf)
+            gameObject.SetActive(true);
+        
+        // 初始化时只隐藏建筑相关元素，InventoryUI相关元素保持原状态
+        HideAllBuildingElements();
+    }
+
+    void Start()
+    {
+        Debug.Log("[BuildingUIController] Start被调用");
+        
+        // 确保BuildingUI根对象激活
+        if (!gameObject.activeSelf)
+            gameObject.SetActive(true);
+        
+        // 初始化时只隐藏建筑相关元素，InventoryUI相关元素保持原状态
+        HideAllBuildingElements();
+        
+        // 开始初始化
+        StartCoroutine(DelayedInitialize());
+    }
+
+    void OnEnable()
+    {
+        Debug.Log("[BuildingUIController] OnEnable被调用");
+        
+        // 确保BuildingUI根对象激活
+        if (!gameObject.activeSelf)
+            gameObject.SetActive(true);
+        
+        // 检查并确保Grid_Plane状态正确
+        EnsureGridPlaneState();
+    }
+
+    // 延迟初始化协程
+    System.Collections.IEnumerator DelayedInitialize()
+    {
+        // 防止重复初始化
+        if (isInitialized)
+        {
+            Debug.Log("[BuildingUIController] 已经初始化，跳过重复初始化");
+            yield break;
+        }
+        
+        Debug.Log("[BuildingUIController] 开始延迟初始化");
+        
+        // 确保BuildingUI根对象始终激活
+        gameObject.SetActive(true);
+        
+        // 等待一帧，确保所有组件都已初始化
+        yield return null;
+        
+        // 确保面板激活
+        EnsureAllObjectsActive();
+        
+        // 初始化建筑格子
+        InitializeBuildingSlots();
+        
+        // 等待建筑图片加载完成
+        yield return StartCoroutine(WaitForBuildingImagesLoaded());
+        
+        isInitialized = true;
+        Debug.Log("[BuildingUIController] 初始化完成");
+    }
+
+    // 等待建筑图片加载完成
+    System.Collections.IEnumerator WaitForBuildingImagesLoaded()
+    {
+        float timeout = 10f; // 10秒超时
+        float elapsed = 0f;
+        
+        while (elapsed < timeout)
+        {
+            bool allLoaded = true;
+            
+            // 检查所有BuildingSlotUI实例的图片加载状态
+            foreach (var slotUI in BuildingSlotUI.allInstances)
+            {
+                if (slotUI != null && !slotUI.IsImageLoaded())
+                {
+                    allLoaded = false;
+                    break;
+                }
+            }
+            
+            if (allLoaded)
+            {
+                Debug.Log("[BuildingUIController] 所有建筑图片加载完成");
+                yield break;
+            }
+            
+            yield return null;
+            elapsed += Time.unscaledDeltaTime;
+        }
+        
+        Debug.LogWarning("[BuildingUIController] 建筑图片加载超时");
+    }
+
+    // 确保所有对象激活
+    void EnsureAllObjectsActive()
+    {
+        if (buildingPanel != null)
+        {
+            buildingPanel.SetActive(true);
+            Debug.Log($"[BuildingUIController] 激活建筑面板: {buildingPanel.name}");
+        }
+        
+        if (backgroundPanel != null)
+        {
+            backgroundPanel.SetActive(true);
+            Debug.Log($"[BuildingUIController] 激活背景面板: {backgroundPanel.name}");
+        }
+        
+        if (gridPlane != null)
+        {
+            gridPlane.SetActive(true);
+            Debug.Log($"[BuildingUIController] 激活网格平面: {gridPlane.name}");
+        }
+    }
+
+    // 初始化建筑格子
+    void InitializeBuildingSlots()
+    {
+        // 检查建筑面板引用是否为空
+        if (buildingPanel == null)
+        {
+            Debug.LogError("[BuildingUIController] 建筑面板引用未设置！");
+            return;
+        }
+
+        // 将GameObject转换为Transform以访问子对象
+        Transform buildingPanelTransform = buildingPanel.transform;
+
+        // 获取所有建筑数据
+        List<BuildingData> buildingDatas = BuildingDataManager.Instance.GetAllBuildingData();
+        
+        // 遍历建筑面板下的子对象（假设为Panel (1), Panel (2), Panel (3), Panel (4) 或类似的命名）
+        int maxSlots = Mathf.Min(buildingPanelTransform.childCount, buildingDatas.Count);
+        
+        for (int i = 0; i < maxSlots; i++)
+        {
+            Transform slotPanel = buildingPanelTransform.GetChild(i);
+            if (slotPanel == null)
+            {
+                Debug.LogWarning($"[BuildingUIController] 槽位 {i} 不存在");
+                continue;
+            }
+            
+            // 尝试获取或添加BuildingSlotUI组件
+            BuildingSlotUI buildingSlotUI = slotPanel.GetComponent<BuildingSlotUI>();
+            if (buildingSlotUI == null)
+            {
+                buildingSlotUI = slotPanel.gameObject.AddComponent<BuildingSlotUI>();
+            }
+            
+            // 查找Image组件 - 首先尝试直接在Panel下查找，然后查找子对象
+            Image slotImage = null;
+            Transform imageObj = slotPanel.Find("Image") ?? slotPanel.Find("ItemImage") ?? slotPanel.Find("BuildingImage");
+            if (imageObj != null)
+            {
+                slotImage = imageObj.GetComponent<Image>();
+            }
+            // 如果没有找到指定名称的Image对象，尝试查找第一个Image组件
+            if (slotImage == null)
+            {
+                slotImage = slotPanel.GetComponent<Image>(); // 检查Panel自身是否有Image组件
+            }
+            if (slotImage == null)
+            {
+                slotImage = slotPanel.GetComponentInChildren<Image>(true); // 查找子对象中的Image组件
+            }
+            
+            // 查找名称文本组件
+            TMPro.TextMeshProUGUI nameText = null;
+            Transform nameTextObj = slotPanel.Find("NameText") ?? slotPanel.Find("Name") ?? slotPanel.Find("Text") ?? slotPanel.Find("TMP_Name");
+            if (nameTextObj != null)
+            {
+                nameText = nameTextObj.GetComponent<TMPro.TextMeshProUGUI>();
+            }
+            // 如果没有找到指定名称的对象，尝试查找第一个TMP文本组件
+            if (nameText == null)
+            {
+                nameText = slotPanel.GetComponentInChildren<TMPro.TextMeshProUGUI>(true);
+            }
+            
+            // 查找消耗文本组件
+            TMPro.TextMeshProUGUI consumptionText = null;
+            Transform consumptionTextObj = slotPanel.Find("ConsumptionText") ?? slotPanel.Find("Consumption") ?? slotPanel.Find("CostText");
+            if (consumptionTextObj != null)
+            {
+                consumptionText = consumptionTextObj.GetComponent<TMPro.TextMeshProUGUI>();
+            }
+            
+            // 设置BuildingSlotUI组件的引用
+            buildingSlotUI.SetUIReferences(slotImage, nameText, consumptionText);
+            
+            // 设置建筑数据
+            buildingSlotUI.SetBuildingData(buildingDatas[i]);
+            
+            // 添加点击事件
+            if (slotImage != null)
+            {
+                Button button = slotImage.GetComponent<Button>();
+                if (button == null)
+                {
+                    button = slotImage.gameObject.AddComponent<Button>();
+                }
+                
+                int index = i; // 保存循环变量的副本
+                button.onClick.AddListener(() => OnSlotClicked(buildingDatas[index].buildingId, buildingSlotUI));
+            }
+            
+            Debug.Log($"[BuildingUIController] 设置建筑格子: {buildingDatas[i].name} (ID: {buildingDatas[i].buildingId}) 到槽位 {i}");
+        }
+        
+        Debug.Log($"[BuildingUIController] 成功初始化 {maxSlots} 个建筑格子");
+    }
+
+    // 槽位点击事件处理
+    private void OnSlotClicked(string buildingId, BuildingSlotUI slotUI)
+    {
+        SelectBuilding(buildingId);
+    }
+
+    // 进入建筑模式
+    public void EnterBuildingMode()
+    {
+        Debug.Log("[BuildingUIController] 进入建筑模式");
+        
+        isBuildingMode = true;
+        
+        // 禁用Tab键打开背包功能
+        if (inventoryUIController != null)
+        {
+            // 检查背包当前是否是可见的，如果是，则记录状态并在退出建筑模式时恢复
+            wasInventoryToggleEnabled = inventoryUIController.IsVisible();
+            
+            // 通过修改toggleKey为一个不太可能被按到的键来阻止背包打开
+            // 或者我们可以通过其他方式来实现
+            inventoryUIController.SetToggleBlocked(true);
+            isInventoryToggleBlocked = true;
+        }
+        
+        // 激活背景面板
+        if (backgroundPanel != null)
+        {
+            backgroundPanel.SetActive(true);
+            Debug.Log("[BuildingUIController] 激活背景面板");
+        }
+        
+        // 激活建筑面板
+        if (buildingPanel != null)
+        {
+            buildingPanel.SetActive(true);
+            Debug.Log("[BuildingUIController] 激活建筑面板");
+        }
+        
+        // 显示网格平面
+        if (gridPlane != null)
+        {
+            gridPlane.SetActive(true);
+            Debug.Log("[BuildingUIController] 显示网格平面");
+        }
+        
+        // 隐藏InventoryUI相关元素
+        if (inventoryBackgroundPanel != null)
+        {
+            inventoryBackgroundPanel.SetActive(false);
+            Debug.Log("[BuildingUIController] 隐藏Inventory背景面板");
+        }
+        
+        if (inventoryPreviewPanel != null)
+        {
+            inventoryPreviewPanel.SetActive(false);
+            Debug.Log("[BuildingUIController] 隐藏Inventory预览面板");
+        }
+    }
+
+    // 退出建筑模式
+    public void ExitBuildingMode()
+    {
+        Debug.Log("[BuildingUIController] 退出建筑模式");
+        
+        isBuildingMode = false;
+        
+        // 恢复Tab键打开背包功能
+        if (inventoryUIController != null && isInventoryToggleBlocked)
+        {
+            inventoryUIController.SetToggleBlocked(false);
+            isInventoryToggleBlocked = false;
+            
+            // 如果进入建筑模式前背包是可见的，则恢复其可见状态
+            if (wasInventoryToggleEnabled && inventoryUIController != null)
+            {
+                inventoryUIController.Show();
+            }
+        }
+        
+        // 隐藏建筑相关面板
+        HideAllBuildingElements();
+    }
+
+    // 隐藏所有建筑相关元素
+    void HideAllBuildingElements()
+    {
+        if (buildingPanel != null)
+        {
+            buildingPanel.SetActive(false);
+            Debug.Log("[BuildingUIController] 隐藏建筑面板: {buildingPanel.name}");
+        }
+        
+        if (backgroundPanel != null)
+        {
+            backgroundPanel.SetActive(false);
+            Debug.Log("[BuildingUIController] 隐藏背景面板: {backgroundPanel.name}");
+        }
+        
+        if (gridPlane != null)
+        {
+            gridPlane.SetActive(false);
+            Debug.Log("[BuildingUIController] 隐藏网格平面: {gridPlane.name}");
+        }
+    }
+
+    // 选择建筑
+    public void SelectBuilding(string buildingId)
+    {
+        Debug.Log($"[BuildingUIController] 选择建筑: {buildingId}");
+    }
+
+    // 检查是否处于建筑模式
+    public bool IsInBuildingMode()
+    {
+        return isBuildingMode;
+    }
+
+    // 确保网格平面状态
+    void EnsureGridPlaneState()
+    {
+        if (gridPlane != null)
+        {
+            // 如果处于建筑模式，显示网格平面；否则隐藏
+            gridPlane.SetActive(isBuildingMode);
+        }
+    }
+
+    // 确保网格平面被隐藏
+    public void EnsureGridPlaneHidden()
+    {
+        if (gridPlane != null)
+        {
+            gridPlane.SetActive(false);
+            
+            // 额外检查，确保通过查找找到的网格平面也被隐藏
+            GameObject gridObj = GameObject.FindGameObjectWithTag("yingdi");
+            if (gridObj != null)
+            {
+                Renderer gridRenderer = gridObj.GetComponent<Renderer>();
+                if (gridRenderer != null)
+                {
+                    gridRenderer.enabled = false;
+                    Debug.Log($"[BuildingUIController] 通过查找隐藏Grid_Plane: {gridObj.name}");
+                }
+            }
+        }
+    }
+
+    // 确保网格平面被显示
+    public void EnsureGridPlaneVisible()
+    {
+        if (gridPlane != null)
+        {
+            gridPlane.SetActive(true);
+            
+            // 额外检查，确保通过查找找到的网格平面也被显示
+            GameObject gridObj = GameObject.FindGameObjectWithTag("yingdi");
+            if (gridObj != null)
+            {
+                Renderer gridRenderer = gridObj.GetComponent<Renderer>();
+                if (gridRenderer != null)
+                {
+                    gridRenderer.enabled = true;
+                    Debug.Log($"[BuildingUIController] 通过查找显示Grid_Plane: {gridObj.name}");
+                }
+            }
+        }
+    }
+
+    // 建筑图片加载完成回调
+    public void OnBuildingImageLoaded(string addressableKey)
+    {
+        Debug.Log($"[BuildingUIController] 建筑图片加载完成: {addressableKey}");
+    }
+
+    // 获取资源消耗字符串
+    private string GetResourceCostString(BuildingData buildingData)
+    {
+        if (buildingData.resourceCostList == null || buildingData.resourceCostList.Count == 0)
+            return "无消耗";
+
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        for (int i = 0; i < buildingData.resourceCostList.Count; i++)
+        {
+            var cost = buildingData.resourceCostList[i];
+
+            // 检查ResourceDatabase是否已初始化
+            if (ResourceDatabase.Instance == null)
+            {
+                Debug.LogError("[BuildingUIController] ResourceDatabase.Instance 为 null，无法获取资源数据");
+                // 如果ResourceDatabase未初始化，返回资源ID作为临时解决方案
+                sb.Append($"{cost.resourceId}: {cost.amount}");
+            }
+            else
+            {
+                ResourceData resourceData = ResourceDatabase.Instance.GetResource(cost.resourceId);
+                string resourceName = resourceData != null ? resourceData.name : cost.resourceId; // 如果资源不存在，使用ID作为名称
+                sb.Append($"{resourceName}: {cost.amount}");
+            }
+
+            if (i < buildingData.resourceCostList.Count - 1)
+                sb.Append("\n");
+        }
+
+        return sb.ToString();
+    }
+}

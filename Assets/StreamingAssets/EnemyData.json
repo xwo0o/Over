@@ -1,0 +1,32 @@
+{
+  "EnemyDatas": [
+    {
+      "enemyType": "SmallEnemy",
+      "name": "小怪",
+      "health": 270,
+      "attackDamage":15,
+      "patrolSpeed": 5,
+      "chaseSpeed": 8,
+      "viewAngle": 120,
+      "viewDistance": 20,
+      "addressableKey": "SmallEnemy",
+      "patrolAnimation": "Patrol",
+      "chaseAnimation": "Chase",
+      "attackAnimation": "Attack"
+    },
+    {
+      "enemyType": "BigEnemy",
+      "name": "大怪",
+      "health": 400,
+      "attackDamage": 30,
+      "patrolSpeed": 5,
+      "chaseSpeed": 7,
+      "viewAngle": 120,
+      "viewDistance": 20,
+      "addressableKey": "BigEnemy",
+      "patrolAnimation": "Patrol",
+      "chaseAnimation": "Chase",
+      "attackAnimation": "Attack"
+    }
+  ]
+}

@@ -1,0 +1,476 @@
+using UnityEngine;
+using Mirror;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+
+/// <summary>
+/// 主机模式优化版本 - 移除所有轮询，完全依赖SyncVar钩子
+/// </summary>
+[RequireComponent(typeof(NetworkIdentity))]
+public class PlayerCharacter : NetworkBehaviour
+{
+    #region 角色属性
+    [Header("角色属性")]
+    [SyncVar(hook = nameof(OnCharacterIdChanged))] public string characterId = "";
+    [SyncVar] public string characterName;
+    [SyncVar] public int maxHealth = 100;
+    [SyncVar] public int currentHealth;
+    [SyncVar] public float movementSpeed = 5f;
+    [SyncVar] public float attackDamage = 20f;
+    [SyncVar] public float attackRange = 3.5f;
+    [SyncVar] public float attackAngle = 90f;
+    
+    [Header("攻击可视化")]
+    public Color attackRangeColor = Color.red;
+    public float attackRangeDisplayDuration = 1.5f;
+    public LineRenderer attackRangeRenderer;
+    public Material lineMaterial;
+    public float attackLineWidthStart = 0.1f;
+    public float attackLineWidthEnd = 0.1f;
+    
+    [Header("血条设置")]
+    public HealthBarManager healthBarManager;
+    
+    [Header("其他组件")]
+    public Transform modelParent;
+    public Transform attackPoint;
+    
+    [Header("状态")]
+    [SyncVar] public bool isInCamp = false;
+    #endregion
+    
+    #region 私有变量
+    private GameObject currentCharacterModel;
+    private AsyncOperationHandle<GameObject> currentLoadHandle;
+    private CharacterData characterData;
+    private List<Animator> animators = new List<Animator>();
+    private float attackRangeDisplayTime = 0f;
+    private int lineSegments = 20;
+    
+    // 平滑插值参数
+    private Vector3 targetPosition;
+    private Quaternion targetRotation;
+    private Vector3 smoothPositionVelocity;
+    private float smoothPositionSpeed = 40f;
+    private float smoothRotationSpeed = 60f;
+    private bool hasTargetPosition = false;
+    private bool hasTargetRotation = false;
+    private const float positionThreshold = 0.1f;
+    private const float rotationThreshold = 2.0f;
+    
+    // 初始化状态机
+    private enum InitState { Uninitialized, WaitingForData, Initializing, Complete, Failed }
+    private InitState initState = InitState.Uninitialized;
+    private Coroutine currentInitCoroutine = null;
+    #endregion
+    
+    #region 生命周期
+    private void Awake()
+    {
+        InitializeAttackRangeRenderer();
+    }
+    
+    private void Start()
+    {
+        if (modelParent == null) modelParent = transform;
+        
+        Debug.LogError($"★ Start() - NetId:{netId}, isLocalPlayer:{isLocalPlayer}, characterId:'{characterId}', State:{initState}");
+    }
+    
+    public override void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+        Debug.LogError($"★ OnStartLocalPlayer() - NetId:{netId}, characterId:'{characterId}'");
+        
+        // 主机模式：强制立即初始化（SyncVar钩子可能不触发）
+        if (!string.IsNullOrEmpty(characterId) && initState == InitState.Uninitialized)
+        {
+            OnCharacterIdChanged("", characterId); // 手动触发
+        }
+    }
+    
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        Debug.LogError($"★ OnStartClient() - NetId:{netId}, isLocalPlayer:{isLocalPlayer}, characterId:'{characterId}'");
+        
+        // 后备保护：2秒后如果仍未初始化，强制处理
+        StartCoroutine(EmergencyInitTimeout());
+    }
+    
+    private System.Collections.IEnumerator EmergencyInitTimeout()
+    {
+        yield return new WaitForSeconds(2f);
+        if (initState == InitState.Uninitialized && !string.IsNullOrEmpty(characterId))
+        {
+            Debug.LogError($"★ 紧急初始化 -钩子未触发，强制处理: '{characterId}'");
+            OnCharacterIdChanged("", characterId);
+        }
+    }
+    
+    /// <summary>
+    /// 唯一入口：SyncVar变化钩子
+    /// </summary>
+    public void OnCharacterIdChanged(string oldValue, string newValue)
+    {
+        Debug.LogError($"★ OnCharacterIdChanged() - NetId:{netId}, '{oldValue}' -> '{newValue}', State:{initState}");
+        
+        if (string.IsNullOrEmpty(newValue)) return;
+        
+        // 防止重复初始化
+        if (initState == InitState.Initializing || initState == InitState.Complete)
+        {
+            if (characterId == newValue) return;
+        }
+        
+        characterId = newValue;
+        
+        // 停止之前的初始化
+        if (currentInitCoroutine != null)
+        {
+            StopCoroutine(currentInitCoroutine);
+        }
+        
+        currentInitCoroutine = StartCoroutine(InitializeCharacterAsync(newValue));
+    }
+    
+    private System.Collections.IEnumerator InitializeCharacterAsync(string targetId)
+    {
+        initState = InitState.WaitingForData;
+        
+        // 等待DataManager
+        yield return WaitForDataManager();
+        
+        // 验证角色数据
+        if (DataManager.Instance?.GetCharacterData(targetId) == null)
+        {
+            Debug.LogError($"★ 角色数据不存在: '{targetId}'，使用默认角色");
+            targetId = "Scout";
+        }
+        
+        // 初始化数据
+        InitializeCharacterData(targetId);
+        
+        // 加载模型
+        yield return LoadCharacterModelAsync(targetId);
+        
+        // 完成
+        initState = currentCharacterModel != null ? InitState.Complete : InitState.Failed;
+        Debug.LogError($"★ 初始化完成 - State:{initState}, Model:{currentCharacterModel?.name}");
+        
+        // 触发事件
+        if (initState == InitState.Complete)
+        {
+            NetworkEventBus.Instance?.TriggerLocal(GameEvents.CharacterInitialized, this);
+        }
+    }
+    
+    private System.Collections.IEnumerator WaitForDataManager()
+    {
+        int attempts = 0;
+        while (DataManager.Instance == null || DataManager.Instance.CharacterDatas == null)
+        {
+            if (++attempts > 30) yield break; // 超时5秒
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+    #endregion
+    
+    #region 角色数据初始化
+    private void InitializeCharacterData(string id)
+    {
+        characterData = DataManager.Instance.GetCharacterData(id);
+        if (characterData == null) return;
+        
+        characterName = characterData.name;
+        maxHealth = characterData.health;
+        currentHealth = maxHealth;
+        movementSpeed = characterData.speed;
+        attackDamage = characterData.attack;
+        
+        if (healthBarManager != null)
+        {
+            healthBarManager.Initialize(currentHealth, maxHealth);
+        }
+    }
+    #endregion
+    
+    #region 角色模型加载
+    private System.Collections.IEnumerator LoadCharacterModelAsync(string id)
+    {
+        initState = InitState.Initializing;
+        
+        // 清理旧模型
+        if (currentCharacterModel != null)
+        {
+            Destroy(currentCharacterModel);
+            currentCharacterModel = null;
+        }
+        
+        if (currentLoadHandle.IsValid())
+        {
+            Addressables.Release(currentLoadHandle);
+        }
+        
+        // 获取角色数据
+        CharacterData data = DataManager.Instance.GetCharacterData(id);
+        if (data == null) yield break;
+        
+        // 加载模型资源
+        string key = string.IsNullOrEmpty(data.addressableKey) ? id : data.addressableKey;
+        currentLoadHandle = Addressables.LoadAssetAsync<GameObject>(key);
+        
+        yield return currentLoadHandle;
+        
+        if (!currentLoadHandle.IsValid() || currentLoadHandle.Status != AsyncOperationStatus.Succeeded)
+        {
+            Debug.LogError($"★ 模型加载失败: '{key}'");
+            yield break;
+        }
+        
+        // 实例化
+        currentCharacterModel = Instantiate(currentLoadHandle.Result, modelParent);
+        currentCharacterModel.transform.localPosition = Vector3.zero;
+        currentCharacterModel.transform.localRotation = Quaternion.identity;
+        
+        // 清理资源
+        Addressables.Release(currentLoadHandle);
+        
+        // 处理模型
+        ProcessModel(currentCharacterModel);
+        
+        Debug.LogError($"★ 模型加载成功: {currentCharacterModel.name}");
+    }
+    
+    private void ProcessModel(GameObject model)
+    {
+        animators.Clear();
+        foreach (var anim in model.GetComponentsInChildren<Animator>())
+        {
+            animators.Add(anim);
+            if (!anim.gameObject.GetComponent<AnimationEventForwarder>())
+            {
+                anim.gameObject.AddComponent<AnimationEventForwarder>();
+            }
+        }
+        
+        model.layer = LayerMask.NameToLayer("Player");
+        foreach (Transform child in model.transform) child.gameObject.layer = LayerMask.NameToLayer("Player");
+    }
+    #endregion
+    
+    #region 移动与攻击
+    private void Update()
+    {
+        if (isLocalPlayer)
+        {
+            HandleLocalPlayerMovement();
+            HandleAttackInput();
+        }
+        else
+        {
+            ApplySmoothInterpolation();
+        }
+        
+        UpdateAttackRangeDisplay();
+    }
+    
+    private void HandleLocalPlayerMovement()
+    {
+        Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        float mouseX = Input.GetAxis("Mouse X");
+        
+        if (input.magnitude > 0.1f || Mathf.Abs(mouseX) > 0.01f)
+        {
+            // 客户端预测
+            if (input.magnitude > 0.1f)
+            {
+                Vector3 move = transform.TransformDirection(input.normalized) * movementSpeed * Time.deltaTime;
+                transform.position += move;
+            }
+            
+            if (Mathf.Abs(mouseX) > 0.01f)
+            {
+                transform.Rotate(Vector3.up, mouseX * 100f * Time.deltaTime);
+            }
+            
+            // 发送给服务器
+            CmdMove(transform.position, transform.rotation, input.magnitude > 0.1f);
+        }
+    }
+    
+    [Command]
+    private void CmdMove(Vector3 pos, Quaternion rot, bool isRunning)
+    {
+        // 强制Y=0
+        pos.y = 0;
+        
+        // 同步到所有客户端
+        RpcSyncPosition(pos, rot);
+        
+        // 更新动画
+        foreach (var anim in animators)
+        {
+            if (anim) anim.SetBool("IsRun", isRunning);
+        }
+    }
+    
+    [ClientRpc]
+    private void RpcSyncPosition(Vector3 pos, Quaternion rot)
+    {
+        // 非本地玩家才应用
+        if (!isLocalPlayer)
+        {
+            targetPosition = pos;
+            targetRotation = rot;
+            hasTargetPosition = true;
+            hasTargetRotation = true;
+        }
+    }
+    
+    private void ApplySmoothInterpolation()
+    {
+        if (hasTargetPosition)
+        {
+            float dist = Vector3.Distance(transform.position, targetPosition);
+            if (dist < 0.1f)
+            {
+                transform.position = targetPosition;
+                hasTargetPosition = false;
+            }
+            else
+            {
+                transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref smoothPositionVelocity, 0.05f, 50f, Time.deltaTime);
+            }
+        }
+        
+        if (hasTargetRotation)
+        {
+            float angle = Quaternion.Angle(transform.rotation, targetRotation);
+            if (angle < 2f)
+            {
+                transform.rotation = targetRotation;
+                hasTargetRotation = false;
+            }
+            else
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 60f);
+            }
+        }
+    }
+    
+    private void HandleAttackInput()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            CmdAttack();
+            attackRangeDisplayTime = Time.time;
+        }
+    }
+    
+    [Command]
+    private void CmdAttack()
+    {
+        foreach (var anim in animators)
+        {
+            if (anim) anim.SetTrigger("Atk");
+        }
+        RpcShowAttackRange();
+    }
+    
+    [ClientRpc]
+    private void RpcShowAttackRange()
+    {
+        attackRangeDisplayTime = Time.time;
+    }
+    
+    private void UpdateAttackRangeDisplay()
+    {
+        if (attackRangeRenderer == null) return;
+        
+        bool shouldShow = Time.time < attackRangeDisplayTime + attackRangeDisplayDuration;
+        attackRangeRenderer.enabled = shouldShow;
+        
+        if (shouldShow) DrawAttackRange();
+    }
+    
+    private void DrawAttackRange()
+    {
+        if (attackRangeRenderer == null) return;
+        
+        Vector3 center = attackPoint ? attackPoint.position : transform.position;
+        center.y = 0.1f;
+        
+        Vector3 forward = transform.forward;
+        forward.y = 0;
+        forward.Normalize();
+        
+        int points = lineSegments + 2;
+        attackRangeRenderer.positionCount = points;
+        
+        Vector3[] positions = new Vector3[points];
+        positions[0] = center;
+        positions[points - 1] = center;
+        
+        float step = attackAngle / lineSegments;
+        for (int i = 0; i <= lineSegments; i++)
+        {
+            float angle = -attackAngle / 2 + step * i;
+            Vector3 dir = Quaternion.AngleAxis(angle, Vector3.up) * forward;
+            positions[i + 1] = center + dir * attackRange;
+        }
+        
+        attackRangeRenderer.SetPositions(positions);
+    }
+    #endregion
+    
+    #region 伤害与治疗
+    [Server]
+    public void TakeDamage(int damage)
+    {
+        currentHealth = Mathf.Max(currentHealth - damage, 0);
+        if (healthBarManager) healthBarManager.currentHealth = currentHealth;
+    }
+    
+    [Server]
+    public void Heal(int amount)
+    {
+        int old = currentHealth;
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+        if (currentHealth > old && healthBarManager)
+        {
+            healthBarManager.currentHealth = currentHealth;
+        }
+    }
+    
+    public void OnAttackHit()
+    {
+        if (!NetworkServer.active) return;
+        
+        Vector3 pos = attackPoint ? attackPoint.position : transform.position;
+        Collider[] hits = Physics.OverlapSphere(pos, attackRange, LayerMask.GetMask("Enemy"));
+        
+        foreach (var hit in hits)
+        {
+            Vector3 dir = (hit.transform.position - pos).normalized;
+            dir.y = 0;
+            float angle = Vector3.Angle(transform.forward, dir);
+            
+            if (angle <= attackAngle / 2)
+            {
+                var enemy = hit.GetComponent<EnemyAI>();
+                if (enemy) enemy.TakeDamage((int)attackDamage);
+            }
+        }
+    }
+    #endregion
+    
+    private void OnDestroy()
+    {
+        if (currentCharacterModel) Destroy(currentCharacterModel);
+        if (currentLoadHandle.IsValid()) Addressables.Release(currentLoadHandle);
+    }
+}

@@ -1,0 +1,15 @@
+{
+  "poolConfig": {
+    "smallEnemyPrefabKey": "SmallEnemy",
+    "bigEnemyPrefabKey": "BigEnemy",
+    "initialEnemyPoolSize": 30,
+    "enemySpawnRange": 120.0,
+    "campAvoidanceDistance": 30.0,
+    "woodPrefabKey": "Wood",
+    "stonePrefabKey": "Stone",
+    "applePrefabKey": "Apple",
+    "pearPrefabKey": "Pear",
+    "initialResourcePoolSize": 70,
+    "resourceSpawnRange": 120.0
+  }
+}

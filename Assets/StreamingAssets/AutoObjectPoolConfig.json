@@ -1,0 +1,63 @@
+{
+    "config": {
+        "version": "1.0",
+        "poolItems": [
+            {
+            "poolId": "SmallEnemy",
+            "objectType": "Enemy",
+            "addressablePath": "SmallEnemy",
+            "initialCapacity": 30,
+            "updateThreshold": 10,
+            "maxCapacity": 40
+        },
+        {
+        "poolId": "BigEnemy",
+        "objectType": "Enemy",
+        "addressablePath": "BigEnemy",
+        "initialCapacity": 20,
+        "updateThreshold": 10,
+        "maxCapacity": 30
+        },
+        {
+        "poolId": "Wood",
+        "objectType": "Resource",
+        "addressablePath": "Wood",
+        "initialCapacity": 30,
+        "updateThreshold": 15,
+        "maxCapacity": 40
+        },
+        {
+        "poolId": "Stone",
+        "objectType": "Resource",
+        "addressablePath": "Stone",
+        "initialCapacity": 30,
+        "updateThreshold": 15,
+        "maxCapacity": 40
+        },
+        {
+        "poolId": "Apple",
+        "objectType": "Resource",
+        "addressablePath": "Apple",
+        "initialCapacity": 30,
+        "updateThreshold": 15,
+        "maxCapacity": 40
+        },
+        {
+        "poolId": "Pear",
+        "objectType": "Resource",
+        "addressablePath": "Pear",
+        "initialCapacity": 30,
+        "updateThreshold": 15,
+        "maxCapacity": 40
+        },
+        {
+        "poolId": "pickupUI",
+        "objectType": "UI",
+        "addressablePath": "pickupUI",
+        "initialCapacity": 20,
+        "updateThreshold": 10,
+        "maxCapacity": 30
+        }
+        ]
+    }
+}

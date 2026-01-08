@@ -1,0 +1,44 @@
+{
+  "ResourceDatas": [
+    {
+      "resourceId": "Wood",
+      "name": "木材",
+      "description": "用于建造建筑的基本材料",
+      "type": "建筑资源",
+      "maxStack": 40,
+      "addressableKey": "Wood",
+      "spriteAddressableKey": "wood",
+      "healthRestore": 0
+    },
+    {
+      "resourceId": "Stone",
+      "name": "石材",
+      "description": "用于建造建筑的坚固材料",
+      "type": "建筑资源",
+      "maxStack": 40,
+      "addressableKey": "Stone",
+      "spriteAddressableKey": "stone",
+      "healthRestore": 0
+    },
+    {
+      "resourceId": "Pear",
+      "name": "梨",
+      "description": "可以恢复生命值的食物",
+      "type": "食物资源",
+      "maxStack": 40,
+      "addressableKey": "Pear",
+      "spriteAddressableKey": "pear",
+      "healthRestore": 20
+    },
+    {
+      "resourceId": "Apple",
+      "name": "苹果",
+      "description": "可以恢复生命值的食物",
+      "type": "食物资源",
+      "maxStack": 40,
+      "addressableKey": "Apple",
+      "spriteAddressableKey": "apple",
+      "healthRestore": 15
+    }
+  ]
+}

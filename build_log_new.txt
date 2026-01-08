@@ -1,0 +1,382 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-qop" at "2025-12-22T16:06:11.9125424Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 43344, path: "F:/unity/Unity Hub/UnityLicensingClient_V1/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.16.1+e780b2e
+  Session Id:              2f0889d9bb0545de88b6c941ab9b8c49
+  Correlation Id:          d670b4d23c0961efd8ebdee82b8b378e
+  External correlation Id: 3595307244822932447
+  Machine Id:              5QvrkEuboGbMwXKbCRjbAGwoRdo=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-qop" (connect: 0.00s, validation: 0.01s, handshake: 0.08s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-qop-notifications" at "2025-12-22T16:06:12.0036928Z"
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully updated license
+Built from '2022.3/china_unity/release' branch; Version is '2022.3.55f1c1 (06b99830297d) revision 440728'; Using compiler version '192829333'; Build Type 'Release'
+OS: 'Windows 11  (10.0.26100) 64bit Professional' Language: 'zh' Physical Memory: 16223 MB
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Serial number assigned to: "F4-84KU-H5YW-BTWC-37BY-XXXX"
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
+[Licensing::Client] Successfully resolved entitlement details
+
+COMMAND LINE ARGUMENTS:
+F:\unity\unity\2022.3.55f1c1\Editor\Unity.exe
+-quit
+-batchmode
+-projectPath
+F:\unity\xaingmu\Over
+-logFile
+build_log_new.txt
+-executeMethod
+BuildScript.Build
+Successfully changed project path to: F:\unity\xaingmu\Over
+F:/unity/xaingmu/Over
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [4600]  Target information:
+
+Player connection [4600]  * "[IP] 192.168.1.225 [Port] 55504 [Flags] 2 [Guid] 1310025430 [EditorId] 1310025430 [Version] 1048832 [Id] WindowsEditor(7,q0p) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [4600]  * "[IP] 192.168.80.1 [Port] 55504 [Flags] 2 [Guid] 1310025430 [EditorId] 1310025430 [Version] 1048832 [Id] WindowsEditor(7,q0p) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [4600]  * "[IP] 192.168.192.1 [Port] 55504 [Flags] 2 [Guid] 1310025430 [EditorId] 1310025430 [Version] 1048832 [Id] WindowsEditor(7,q0p) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [4600]  * "[IP] 26.94.84.229 [Port] 55504 [Flags] 2 [Guid] 1310025430 [EditorId] 1310025430 [Version] 1048832 [Id] WindowsEditor(7,q0p) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [4600]  * "[IP] 172.28.19.127 [Port] 55504 [Flags] 2 [Guid] 1310025430 [EditorId] 1310025430 [Version] 1048832 [Id] WindowsEditor(7,q0p) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [4600]  * "[IP] 192.168.56.1 [Port] 55504 [Flags] 2 [Guid] 1310025430 [EditorId] 1310025430 [Version] 1048832 [Id] WindowsEditor(7,q0p) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [4600] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [4600] Host joined alternative multi-casting on [225.0.0.222:34997]...
+[PhysX] Initialized MultithreadedTaskDispatcher with 8 workers.
+[Package Manager] UpmClient::Connect -- Connected to IPC stream "Upm-38780" after 0.2 seconds.
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 59 packages:
+  Packages from [https://packages.unity.cn]:
+    com.unity.addressables@1.22.3 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.addressables@1.22.3)
+    com.unity.ai.navigation@1.1.7 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.ai.navigation@1.1.7)
+    com.unity.collab-proxy@2.10.2 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.collab-proxy@2.10.2)
+    com.unity.nuget.newtonsoft-json@3.2.1 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.nuget.newtonsoft-json@3.2.1)
+    com.unity.postprocessing@3.5.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.postprocessing@3.5.0)
+    com.unity.textmeshpro@3.0.7 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.textmeshpro@3.0.7)
+    com.unity.timeline@1.7.6 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.timeline@1.7.6)
+    com.unity.visualscripting@1.9.4 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.visualscripting@1.9.4)
+    com.unity.mathematics@1.2.6 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.mathematics@1.2.6)
+    com.unity.burst@1.8.18 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.burst@1.8.18)
+    com.unity.ide.visualstudio@2.0.22 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.ide.visualstudio@2.0.22)
+    com.unity.ide.rider@3.0.34 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.ide.rider@3.0.34)
+    com.unity.ide.vscode@1.2.5 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.ide.vscode@1.2.5)
+    com.unity.editorcoroutines@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.editorcoroutines@1.0.0)
+    com.unity.performance.profile-analyzer@1.2.2 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.performance.profile-analyzer@1.2.2)
+    com.unity.test-framework@1.1.33 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.test-framework@1.1.33)
+    com.unity.testtools.codecoverage@1.2.6 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.testtools.codecoverage@1.2.6)
+    com.unity.scriptablebuildpipeline@1.21.25 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.scriptablebuildpipeline@1.21.25)
+    com.unity.searcher@4.9.2 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.searcher@4.9.2)
+    com.unity.settings-manager@2.0.1 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.settings-manager@2.0.1)
+    com.unity.ext.nunit@1.0.6 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.ext.nunit@1.0.6)
+  Built-in packages:
+    com.unity.feature.development@1.0.1 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.feature.development@1.0.1)
+    com.unity.render-pipelines.universal@14.0.11 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.render-pipelines.universal@14.0.11)
+    com.unity.ugui@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.ugui@1.0.0)
+    com.unity.modules.ai@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.ai@1.0.0)
+    com.unity.modules.androidjni@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.androidjni@1.0.0)
+    com.unity.modules.animation@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.animation@1.0.0)
+    com.unity.modules.assetbundle@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.assetbundle@1.0.0)
+    com.unity.modules.audio@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.audio@1.0.0)
+    com.unity.modules.cloth@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.cloth@1.0.0)
+    com.unity.modules.director@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.director@1.0.0)
+    com.unity.modules.imageconversion@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.imageconversion@1.0.0)
+    com.unity.modules.imgui@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.imgui@1.0.0)
+    com.unity.modules.jsonserialize@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.jsonserialize@1.0.0)
+    com.unity.modules.particlesystem@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.particlesystem@1.0.0)
+    com.unity.modules.physics@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.physics@1.0.0)
+    com.unity.modules.physics2d@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.physics2d@1.0.0)
+    com.unity.modules.screencapture@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.screencapture@1.0.0)
+    com.unity.modules.terrain@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.terrain@1.0.0)
+    com.unity.modules.terrainphysics@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.terrainphysics@1.0.0)
+    com.unity.modules.tilemap@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.tilemap@1.0.0)
+    com.unity.modules.ui@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.ui@1.0.0)
+    com.unity.modules.uielements@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.uielements@1.0.0)
+    com.unity.modules.umbra@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.umbra@1.0.0)
+    com.unity.modules.unityanalytics@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.unityanalytics@1.0.0)
+    com.unity.modules.unitywebrequest@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.unitywebrequest@1.0.0)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle@1.0.0)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.unitywebrequestaudio@1.0.0)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.unitywebrequesttexture@1.0.0)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.unitywebrequestwww@1.0.0)
+    com.unity.modules.vehicles@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.vehicles@1.0.0)
+    com.unity.modules.video@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.video@1.0.0)
+    com.unity.modules.vr@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.vr@1.0.0)
+    com.unity.modules.wind@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.wind@1.0.0)
+    com.unity.modules.xr@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.xr@1.0.0)
+    com.unity.modules.subsystems@1.0.0 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.modules.subsystems@1.0.0)
+    com.unity.render-pipelines.core@14.0.11 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.render-pipelines.core@14.0.11)
+    com.unity.shadergraph@14.0.11 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.shadergraph@14.0.11)
+    com.unity.render-pipelines.universal-config@14.0.10 (location: F:\unity\xaingmu\Over\Library\PackageCache\com.unity.render-pipelines.universal-config@14.0.10)
+[Subsystems] No new subsystems found in resolved package list.
+Package Manager log level set to [2]
+[Package Manager] Done registering packages in 0.13 seconds
+Artifact Garbage Collection - Removed 10 unused hashed content files
+Refreshing native plugins compatible for Editor in 363.56 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2022.3.55f1c1 (06b99830297d)
+[Subsystems] Discovering subsystems at path F:/unity/unity/2022.3.55f1c1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path F:/unity/xaingmu/Over/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: AMD Radeon RX 6600 (ID=0x73ff)
+    Vendor:   ATI
+    VRAM:     8147 MB
+    Driver:   32.0.21037.1004
+[Licensing::Client] Successfully resolved entitlement details
+Initialize mono
+Mono path[0] = 'F:/unity/unity/2022.3.55f1c1/Editor/Data/Managed'
+Mono path[1] = 'F:/unity/unity/2022.3.55f1c1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'F:/unity/unity/2022.3.55f1c1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56780
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: F:/unity/unity/2022.3.55f1c1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: F:/unity/unity/2022.3.55f1c1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.003407 seconds.
+- Loaded All Assemblies, in  1.241 seconds
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.248 seconds
+Domain Reload Profiling: 1489ms
+	BeginReloadAssembly (92ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (304ms)
+	RebuildNativeTypeToScriptingClass (29ms)
+	initialDomainReloadingComplete (62ms)
+	LoadAllAssembliesAndSetupDomain (755ms)
+		LoadAssemblies (92ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (751ms)
+			TypeCache.Refresh (750ms)
+				TypeCache.ScanAssembly (739ms)
+			ScanForSourceGeneratedMonoScriptInfo (0ms)
+			ResolveRequiredComponents (0ms)
+	FinalizeReload (248ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (204ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (7ms)
+			SetLoadedEditorAssemblies (5ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (2ms)
+			ProcessInitializeOnLoadAttributes (139ms)
+			ProcessInitializeOnLoadMethodAttributes (52ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[ScriptCompilation] Requested script compilation because: Assetdatabase observed changes in script compilation related files
+Starting: F:\unity\unity\2022.3.55f1c1\Editor\Data\bee_backend.exe --dont-print-to-structured-log --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: F:/unity/xaingmu/Over
+DisplayProgressbar: Compiling Scripts
+ExitCode: 4 Duration: 1s658ms
+Rebuilding DAG because FileSignature timestamp changed: Library/Bee/1900b0aE-inputdata.json
+[678/882    0s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
+Assets\Scripts\Core\SyncDataManager.cs(23,18): warning CS0108: 'SyncDataManager.syncInterval' hides inherited member 'NetworkBehaviour.syncInterval'. Use the new keyword if hiding was intended.
+
+Assets\Scripts\Core\NetworkEventManager.cs(34,18): warning CS0414: The field 'NetworkEventManager._isSceneLoading' is assigned but its value is never used
+
+Assets\Scripts\Character\PlayerCharacter.cs(56,19): warning CS0414: The field 'PlayerCharacter.comboTimeout' is assigned but its value is never used
+
+Assets\Scripts\Enemy\EnemyAIStateMachine.cs(251,19): warning CS0414: The field 'EnemyChaseState.attackAnimationCooldown' is assigned but its value is never used
+
+Assets\Scripts\Enemy\EnemyAIStateMachine.cs(252,19): warning CS0414: The field 'EnemyChaseState.lastAttackAnimationTime' is assigned but its value is never used
+
+Assets\Scripts\Character\PlayerCharacter.cs(55,17): warning CS0414: The field 'PlayerCharacter.comboCount' is assigned but its value is never used
+
+Assets\Scripts\Character\PlayerCharacter.cs(51,18): warning CS0414: The field 'PlayerCharacter.isHostLocalPlayer' is assigned but its value is never used
+
+Assets\Scripts\Character\PlayerCharacter.cs(57,19): warning CS0414: The field 'PlayerCharacter.lastComboTime' is assigned but its value is never used
+
+Assets\Scripts\Character\PlayerCharacter.cs(71,19): warning CS0414: The field 'PlayerCharacter.smoothPositionSpeed' is assigned but its value is never used
+
+Assets\Scripts\Character\PlayerCharacter.cs(58,17): warning CS0414: The field 'PlayerCharacter.maxComboCount' is assigned but its value is never used
+[679/882    1s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra requires additional run (1.58 seconds), 2 items updated, 677 evaluated
+Starting: F:\unity\unity\2022.3.55f1c1\Editor\Data\Tools\netcorerun\netcorerun.exe "F:\unity\unity\2022.3.55f1c1\Editor\Data\Tools\BuildPipeline\ScriptCompilationBuildProgram.exe" "Library/Bee/1900b0aE.dag.json" "Library/Bee/1900b0aE-inputdata.json" "Library\Bee\buildprogram0.traceevents"
+WorkingDir: F:/unity/xaingmu/Over
+ExitCode: 0 Duration: 2s831ms
+Starting: F:\unity\unity\2022.3.55f1c1\Editor\Data\bee_backend.exe --dont-print-to-structured-log --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --dagfilejson="Library\Bee\1900b0aE.dag.json" --profile="Library/Bee/backend2.traceevents" ScriptAssemblies
+WorkingDir: F:/unity/xaingmu/Over
+ExitCode: 0 Duration: 2s502ms
+Finished compiling graph: 885 nodes, 13237 flattened edges (10439 ToBuild, 148 ToUse), maximum node priority 943
+[680/882    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[876/882    1s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 125 defines and 294 references
+
+processors: Mirror.Weaver.ILPostProcessorHook, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Mirror.Weaver.ILPostProcessorHook
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[879/882    1s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll, with 127 defines and 276 references
+
+processors: Mirror.Weaver.ILPostProcessorHook, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Mirror.Weaver.ILPostProcessorHook
+
+Mirror.Weaver.ILPostProcessorHook: (0,0): warning syncInventorySlots should have a 'readonly' keyword in front of the variable because Mirror.SyncObjects always need to be initialized by the Weaver. (at SyncInventorySlots PlayerInventory::syncInventorySlots)
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[880/882    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[881/882    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+*** Tundra build success (2.48 seconds), 5 items updated, 882 evaluated
+Mirror.Weaver.ILPostProcessorHook: (0,0): warning syncInventorySlots should have a 'readonly' keyword in front of the variable because Mirror.SyncObjects always need to be initialized by the Weaver. (at SyncInventorySlots PlayerInventory::syncInventorySlots)
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+AssetDatabase: script compilation time: 11.236136s
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  1.000 seconds
+Refreshing native plugins compatible for Editor in 3.12 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Start importing Assets/Scripts/Enemy/EnemyAI.cs using Guid(f12df2a5d3663e4439ae249de8a8e1e4) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 8 workers.
+ -> (artifact id: '1af63c8e33120e501aa917ca8cf48d46') in 0.009935 seconds
+Start importing Assets/Scripts/Resource/NetworkResource.cs using Guid(061dc9d91911c5140b15cf8b555654b5) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 8 workers.
+ -> (artifact id: 'e9e29fb6296992052919279b03316785') in 0.002748 seconds
+Start importing Assets/Scripts/Building/NetworkBuilding.cs using Guid(9d63ff4a282e49e41905efadf9676624) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 8 workers.
+ -> (artifact id: '3504e72c26acb27da856fb293483c9bd') in 0.002661 seconds
+Start importing Assets/Scripts/Inventory/PlayerInventory.cs using Guid(bd023cf7e0bf41f438be401a30c4376a) Importer(-1,00000000000000000000000000000000) [PhysX] Initialized MultithreadedTaskDispatcher with 8 workers.
+ -> (artifact id: '88508de72d7ec04f2a12ab99e855a279') in 0.002452 seconds
+Refreshing native plugins compatible for Editor in 2.76 ms, found 3 plugins.
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Mirror | mirror-networking.com | discord.gg/N9QVxbM
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  4.638 seconds
+Domain Reload Profiling: 5638ms
+	BeginReloadAssembly (153ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (4ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (23ms)
+	RebuildCommonClasses (30ms)
+	RebuildNativeTypeToScriptingClass (8ms)
+	initialDomainReloadingComplete (20ms)
+	LoadAllAssembliesAndSetupDomain (789ms)
+		LoadAssemblies (479ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (400ms)
+			TypeCache.Refresh (362ms)
+				TypeCache.ScanAssembly (347ms)
+			ScanForSourceGeneratedMonoScriptInfo (24ms)
+			ResolveRequiredComponents (13ms)
+	FinalizeReload (4638ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (3799ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (3ms)
+			SetLoadedEditorAssemblies (2ms)
+			RefreshPlugins (0ms)
+			BeforeProcessingInitializeOnLoad (57ms)
+			ProcessInitializeOnLoadAttributes (3567ms)
+			ProcessInitializeOnLoadMethodAttributes (167ms)
+			AfterProcessingInitializeOnLoad (2ms)
+			EditorAssembliesLoaded (1ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (35ms)
+Refreshing native plugins compatible for Editor in 2.23 ms, found 3 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=e7be9442b101b0a4c80817469ba4606c): Total: 18.543 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=6 (actual=4, local cache=2, cache server=0)
+		Asset DB Process Time: managed=3 ms, native=1482 ms
+		Asset DB Callback time: managed=77 ms, native=4 ms
+		Scripting: domain reloads=1, domain reload time=5694 ms, compile time=11236 ms, other=44 ms
+		Project Asset Count: scripts=8039, non-scripts=3006
+		Asset File Changes: new=0, changed=4, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeBeforeRefreshCallbacks: 0.219ms
+	ApplyChangesToAssetFolders: 0.059ms
+	Scan: 68.007ms
+	OnSourceAssetsModified: 1.733ms
+	GetAllGuidsForCategorization: 1.178ms
+	CategorizeAssets: 182.891ms
+	ImportOutOfDateAssets: 4736.230ms (-6583.611ms without children)
+		ImportManagerImport: 26.423ms (6.554ms without children)
+			ImportInProcess: 19.828ms
+			UpdateCategorizedAssets: 0.042ms
+		CompileScripts: 11236.261ms
+		ReloadNativeAssets: 0.028ms
+		UnloadImportedAssets: 50.842ms
+		ReloadImportedAssets: 1.136ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 3.073ms
+		InitializingProgressBar: 0.001ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.001ms
+		OnDemandSchedulerStart: 2.076ms
+	PostProcessAllAssets: 77.403ms
+	Hotreload: 2.640ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.001ms
+	UnloadStreamsBegin: 0.329ms
+	PersistCurrentRevisions: 0.714ms
+	UnloadStreamsEnd: 0.084ms
+	GenerateScriptTypeHashes: 4.263ms
+	Untracked: 13471.888ms
+Application.AssetDatabase Initial Refresh End
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.10 seconds
+Scanning for USB devices : 4.100ms
+Initializing Unity extensions:
+[Licensing::Client] Successfully resolved entitlement details
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-Over
+[PhysX] Initialized MultithreadedTaskDispatcher with 8 workers.
+ProgressiveSceneManager::Cancel()
+Unloading 98 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 195 unused Assets / (9.0 MB). Loaded Objects now: 7088.
+Memory consumption went from 207.4 MB to 198.4 MB.
+Total: 7.989600 ms (FindLiveObjects: 0.361900 ms CreateObjectMapping: 0.205100 ms MarkObjects: 4.786300 ms  DeleteObjects: 2.634300 ms)
+
+executeMethod class 'BuildScript' could not be found.
+Argument was -executeMethod BuildScript.Build
+Exiting without the bug reporter. Application will terminate with return code 1
