@@ -1,0 +1,61 @@
+{
+  "config": {
+    "version": "1.0",
+    "poolItems": [
+      {
+        "poolId": "SmallEnemy",
+        "objectType": "Enemy",
+        "addressablePath": "SmallEnemy",
+        "minCapacity": 5,
+        "maxCapacity": 20,
+        "initialCapacity": 10,
+        "expandStep": 5
+      },
+      {
+        "poolId": "BigEnemy",
+        "objectType": "Enemy",
+        "addressablePath": "BigEnemy",
+        "minCapacity": 3,
+        "maxCapacity": 10,
+        "initialCapacity": 5,
+        "expandStep": 3
+      },
+      {
+        "poolId": "Wood",
+        "objectType": "Resource",
+        "addressablePath": "Wood",
+        "minCapacity": 10,
+        "maxCapacity": 30,
+        "initialCapacity": 15,
+        "expandStep": 10
+      },
+      {
+        "poolId": "Stone",
+        "objectType": "Resource",
+        "addressablePath": "Stone",
+        "minCapacity": 10,
+        "maxCapacity": 30,
+        "initialCapacity": 15,
+        "expandStep": 10
+      },
+      {
+        "poolId": "Apple",
+        "objectType": "Resource",
+        "addressablePath": "Apple",
+        "minCapacity": 10,
+        "maxCapacity": 30,
+        "initialCapacity": 15,
+        "expandStep": 10
+      },
+      {
+        "poolId": "Pear",
+        "objectType": "Resource",
+        "addressablePath": "Pear",
+        "minCapacity": 10,
+        "maxCapacity": 30,
+        "initialCapacity": 15,
+        "expandStep": 10
+      }
+    ]
+  }
+}

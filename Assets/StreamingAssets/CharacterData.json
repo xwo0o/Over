@@ -1,0 +1,28 @@
+{
+  "CharacterDatas": [
+    {
+      "id": "01",
+      "health": 300,
+      "speed": 15,
+      "addressableKey": "01"
+    },
+    {
+      "id": "02",
+      "health": 300,
+      "speed": 15,
+      "addressableKey": "02"
+    },
+    {
+      "id": "03",
+      "health": 300,
+      "speed": 15,
+      "addressableKey": "03"
+    },
+    {
+      "id": "04",
+      "health": 300,
+      "speed": 15,
+      "addressableKey": "04"
+    }
+  ]
+}

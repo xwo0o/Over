@@ -1,0 +1,53 @@
+## 问题根源
+
+在 `OnSlotIndexChanged` 中，代码更新了 `previewWeaponController.inventoryUI.SetSelectedSlot(newIndex)`。
+
+问题在于：
+
+1. `currentSlotIndex` 是 SyncVar，同步到所有客户端
+2. `OnSlotIndexChanged` 在所有客户端执行
+3. 但 `previewWeaponController` 和 `inventoryUI` 是**全局单例**，所有玩家共享同一个UI实例
+4. 导致一个玩家的滚轮操作影响所有玩家的UI显示
+
+## 修复方案
+
+### 只更新本地玩家的UI
+
+在 `OnSlotIndexChanged` 中，只更新**本地玩家**的UI，不更新其他玩家的UI。
+
+**修改前：**
+
+```csharp
+void OnSlotIndexChanged(int oldIndex, int newIndex)
+{
+    localSlotIndex = newIndex;
+    
+    // 问题：这会更新所有玩家的UI！
+    if (previewWeaponController != null && previewWeaponController.inventoryUI != null)
+    {
+        previewWeaponController.inventoryUI.SetSelectedSlot(newIndex);
+    }
+}
+```
+
+**修改后：**
+
+```csharp
+void OnSlotIndexChanged(int oldIndex, int newIndex)
+{
+    localSlotIndex = newIndex;
+    
+    // 只更新本地玩家的UI
+    if (isLocalPlayer && previewWeaponController != null && previewWeaponController.inventoryUI != null)
+    {
+        previewWeaponController.inventoryUI.SetSelectedSlot(newIndex);
+    }
+}
+```
+
+## 修改文件
+
+* [PlayerWeaponController.cs](file:///f:/团结引擎/项目存放/Over/Assets/Scripts/Weapon/PlayerWeaponController.cs)
+
+  * 修改 `OnSlotIndexChanged`，添加 `isLocalPlayer` 判断
+

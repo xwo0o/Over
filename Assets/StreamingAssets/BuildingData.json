@@ -1,0 +1,72 @@
+{
+  "BuildingDatas": [
+    {
+      "buildingId": "stoneWall",
+      "name": "石墙",
+      "description": "坚固的石质防御墙",
+      "width": 1,
+      "height": 1,
+      "resourceCostList": [
+        {
+          "resourceId": "Wood",
+          "amount": 6
+        },
+        {
+          "resourceId": "Stone",
+          "amount": 3
+        }
+      ],
+      "addressableKey": "stoneWall.prefab",
+      "imageAddressableKey": "stoneWall.png"
+    },
+    {
+      "buildingId": "woodWall",
+      "name": "木墙",
+      "description": "木质防御墙",
+      "width": 1,
+      "height": 1,
+      "resourceCostList": [
+        {
+          "resourceId": "Wood",
+          "amount": 9
+        }
+      ],
+      "addressableKey": "woodWall.prefab",
+      "imageAddressableKey": "woodWall.png"
+    },
+    {
+      "buildingId": "house",
+      "name": "房屋",
+      "description": "大型居住建筑",
+      "width": 5,
+      "height": 5,
+      "resourceCostList": [
+        {
+          "resourceId": "Wood",
+          "amount": 20
+        },
+        {
+          "resourceId": "Stone",
+          "amount": 20
+        }
+      ],
+      "addressableKey": "house.prefab",
+      "imageAddressableKey": "house.png"
+    },
+    {
+      "buildingId": "woodChair",
+      "name": "椅子",
+      "description": "木质座椅",
+      "width": 1,
+      "height": 1,
+      "resourceCostList": [
+        {
+          "resourceId": "Wood",
+          "amount": 3
+        }
+      ],
+      "addressableKey": "woodChair.prefab",
+      "imageAddressableKey": "woodChair.png"
+    }
+  ]
+}

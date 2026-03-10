@@ -1,0 +1,52 @@
+{
+  "Weapons": [
+    {
+      "weaponId": 1,
+      "resourceId": "WGS",
+      "weaponName": "阔刀",
+      "weaponType": "单手武器",
+      "modelAddressableKey": "WGS",
+      "spriteAddressableKey": "WGS.png",
+      "boneNames": ["Prop_R"],
+      "damage": 80,
+      "comboStages": 3,
+      "attackRange": 2.7,
+      "attackAngle": 180,
+      "attackAnimationNames": ["WGS_A1", "WGS_A2", "WGS_A3"],
+      "comboDamageMultipliers": [1.0, 1.0, 1.5],
+      "description": "重型单手武器，三段连击，攻击范围广，第三段伤害+50%"
+    },
+    {
+      "weaponId": 2,
+      "resourceId": "WTD",
+      "weaponName": "双刀",
+      "weaponType": "双手武器",
+      "modelAddressableKeys": ["WTD_R", "WTD_L"],
+      "spriteAddressableKey": "WTD.png",
+      "boneNames": ["Prop_R", "Prop_L"],
+      "damage": 50,
+      "comboStages": 3,
+      "attackRange": 1.7,
+      "attackAngle": 180,
+      "attackAnimationNames": ["WTD_A1", "WTD_A2", "WTD_A3"],
+      "comboDamageMultipliers": [1.0, 1.0, 1.5],
+      "description": "敏捷双手武器，快速连击，第三段伤害+50%"
+    },
+    {
+      "weaponId": 3,
+      "resourceId": "Axe",
+      "weaponName": "斧头",
+      "weaponType": "单手武器",
+      "modelAddressableKey": "Axe",
+      "spriteAddressableKey": "Axe.png",
+      "boneNames": ["Prop_R"],
+      "damage": 130,
+      "comboStages": 1,
+      "attackRange": 2.7,
+      "attackAngle": 360,
+      "attackAnimationNames": ["Axe_Spin"],
+      "comboDamageMultipliers": [1.0],
+      "description": "重型单手武器，单次旋转攻击，造成2次伤害"
+    }
+  ]
+}
